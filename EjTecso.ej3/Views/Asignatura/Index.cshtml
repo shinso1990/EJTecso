@@ -1,0 +1,161 @@
+﻿@using EjTecso.ej3.Models.Estados
+@model EjTecso.ej3.Models.ModeloPagina.MPAsignatura
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+<h2>Asignaturas</h2>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h4>
+                Filtro
+            </h4>
+        </div>
+    </div>
+
+    @using (Html.BeginForm("Index", "Asignatura", FormMethod.Get, new { @id = "filtroForm" }))
+    {
+        <div class="row">
+            <div class="col-lg-4">
+                <label>Id Alumno:</label><br />
+                @Html.TextBox("IDAlumno", null, new { style = "width:100%;" })
+            </div>
+            <div class="col-lg-4">
+                <label>Id Curso:</label><br />
+                @Html.TextBox("IdCurso", null, new { style = "width:100%;" })
+            </div>
+            <div class="col-lg-4">
+                <label>Legajo:</label><br />
+                @Html.TextBox("Legajo", null, new { style = "width:100%;" })
+            </div>
+            <div class="col-lg-4">
+                <label>Nombre:</label><br />
+                @Html.TextBox("Nombre", null, new { style = "width:100%;" })
+            </div>
+            <div class="col-lg-4">
+                <label>Docente:</label><br />
+                @Html.TextBox("Docente", null, new { style = "width:100%;" })
+            </div>
+            <div class="col-lg-4">
+                <label>Asignatura:</label><br />
+                @Html.TextBox("Asignatura", null, new { style = "width:100%;" })
+            </div>
+            <div class="col-lg-4">
+                <label>Estado: </label><br />
+                @Html.DropDownList("Estado", new List<SelectListItem>()
+                        { new SelectListItem() { Text = EstadoAlumno.TODOS.ToString(), Value = ((int)EstadoAlumno.TODOS).ToString(), Selected = Model.Filtro.Estado == EstadoAlumno.TODOS },
+                        new SelectListItem() { Text = EstadoAlumno.Inscripto.ToString(), Value = ((int)EstadoAlumno.Inscripto).ToString(), Selected = Model.Filtro.Estado == EstadoAlumno.Inscripto },
+                        new SelectListItem() { Text = EstadoAlumno.Regular.ToString(), Value = ((int)EstadoAlumno.Regular).ToString(), Selected = Model.Filtro.Estado == EstadoAlumno.Regular },
+                        new SelectListItem() { Text = EstadoAlumno.No_Regular.ToString(), Value = ((int)EstadoAlumno.No_Regular).ToString(), Selected = Model.Filtro.Estado == EstadoAlumno.No_Regular       }
+                        }, new { style = "width:100%" })
+            </div>
+            <div class="col-lg-4">
+                <br />
+                <button type="submit" class="btn btn-info" style="width:100%">Filtrar</button>
+            </div>
+        </div>
+    }
+    <hr />
+    <div class="row">
+        <table class="table table-responsive-lg table-sm table-striped ">
+            <thead>
+                <tr>
+                    <th>ID Curso </th>
+                    <th>Asignatura </th>
+                    <th>Cupo Máximo </th>
+                    <th>Docente </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{int rowNumber = 0; }
+                @foreach (var item in Model.Asignaturas.GroupBy(x=> x.Curso.IDCurso).Select(g=> new { IDCurso = g.Key , Curso =g.Select(t => t.Curso).FirstOrDefault(), Docente = g.Select(t => t.Docente).FirstOrDefault(), Materia = g.Select(t => t.Materia).FirstOrDefault(), Asignatura = g.Select(f=> f).ToList()  } ) )
+                {
+                    rowNumber++;
+                    <tr>
+                        <td>@item.Curso.IDCurso   </td>
+                        <td>@item.Materia.Nombre </td>
+                        <td>@item.Curso.CupoMaximo </td>
+                        <td>@item.Docente.Nombre</td>
+                        <td>
+                            <h6 onclick="alternarVisibilidad('@rowNumber.ToString()')" style="text-decoration: none;color: black;cursor: pointer;">Inscriptos <i id="inscriptos_@rowNumber.ToString()" class="fas fa-angle-double-down" style="font-size:30 px;"></i></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align:center">
+
+                            <table style="display:none;width:100%" class="table" id="table_@rowNumber.ToString()">
+                                <thead>
+                                    <tr>
+                                        <th>ID Alumno</th>
+                                        <th>Nombre</th>
+                                        <th>Legajo</th>
+                                        <th>Estado</th>
+                                        <th>Fecha Inscripción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if(item.Asignatura.FirstOrDefault().Inscripcion != null)
+                                    {
+
+                                       foreach (var asig in item.Asignatura)
+                                        {
+                                            <tr>
+                                                <td>@asig.Alumno.IDAlumno </td>
+                                                <td>@asig.Alumno.Nombre </td>
+                                                <td>@asig.Alumno.Legajo </td>
+                                                <td>@(((EstadoAlumno)asig.Inscripcion.IDEstado).ToString()) </td>
+                                                <td>@asig.Inscripcion.FechaInscripcion</td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr ><td colspan="5">NO HAY INSCRIPTOS</td>  </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $('#modalAsociacion').on('hidden.bs.modal', function () {
+        $("#iframeGA").attr('src', '');
+    })
+
+    function loadIframe(src)
+    {
+        $("#iframeGA").attr('src', src);
+    }
+
+    function alternarVisibilidad(number) {
+        var jqo = $('#table_' + number);
+        var jqi = $('#inscriptos_' + number);
+        if (jqo.css('display') == 'none') {
+            jqo.css('display', 'table');
+            jqi.removeClass('fa-angle-double-down');
+            jqi.addClass('fa-angle-double-up');
+        }
+        else {
+            jqo.css('display', 'none');
+            jqi.removeClass('fa-angle-double-up');
+            jqi.addClass('fa-angle-double-down');
+        }
+    }
+
+</script>

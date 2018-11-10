@@ -1,0 +1,85 @@
+﻿@using EjTecso.ej3.Models.Estados
+@model Alumno
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Inscripciones del alumno</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h4>
+                Información del alumno
+            </h4>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <label>Id Alumno:</label><br />
+                <span>@Model.IDAlumno </span>
+            </div>
+            <div class="col-lg-4">
+                <label>Nombre:</label><br />
+                <span>@Model.Nombre </span>
+            </div>
+            <div class="col-lg-4">
+                <label>Edad: </label><br />
+                <span>@Model.Edad </span>
+            </div>
+            <div class="col-lg-4">
+                <label>Legajo:</label><br />
+                <span>@Model.Legajo </span>
+            </div>
+            <div class="col-lg-4">
+                <label>Fecha Nacimiento:</label><br />
+                <span>@Model.FechaNacimiento.ToString("dd/MM/yyyy") </span>
+            </div>
+        </div>
+    <hr />
+    <div class="row">
+        <div class="col-lg-12">
+            <h4>
+                @Html.ActionLink("Inscribir Alumno","Index", "Inscripcion",new { IDAlumno = Model.IDAlumno }, new { } )
+            </h4>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-lg-12">
+            <h4>
+                Inscripciones:
+            </h4>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-responsive-lg table-sm ">
+            <thead>
+                <tr>
+                    <th>IDCurso</th>
+                    <th>Asignatura</th>
+                    <th>Docente</th>
+                    <th>Estado</th>
+                    <th>Fecha de Inscripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Inscripcion )
+                {
+                    <tr>
+                        <td>@item.IDCurso</td>
+                        <td>@item.Curso.Materia.Nombre</td>
+                        <td>@item.Curso.Docente.Nombre</td>
+                        <td> @(((EstadoAlumno)item.IDEstado).ToString()) </td>
+                        <td>@item.FechaInscripcion </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div>
+    @Html.ActionLink("Volver", "Index")
+</div>

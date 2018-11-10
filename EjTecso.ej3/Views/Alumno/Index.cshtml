@@ -1,0 +1,86 @@
+﻿@using EjTecso.ej3.Models.Estados
+@model EjTecso.ej3.Models.ModeloPagina.MPAlumno
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Alumnos</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h4>
+                @Html.ActionLink("Alta de alumno", "Alta")
+            </h4>
+        </div>
+    </div>
+    <hr />
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h4>
+                Filtro
+            </h4>
+        </div>
+    </div>
+    @using (Html.BeginForm("Index", "Alumno", FormMethod.Get, new { @id = "filtroForm" }))
+    {
+        <div class="row">
+            <div class="col-lg-4">
+                <label>Id Alumno:</label><br />
+                @Html.TextBox("IDAlumno", null, new { style = "width:100%;" })
+            </div>
+            <div class="col-lg-4">
+                <label>Nombre:</label><br />
+                @Html.TextBox("Nombre", null, new { style = "width:100%;" })
+            </div>
+            <div class="col-lg-4">
+                <label>Edad: </label><br />
+                @Html.TextBox("Edad", null, new { style = "width:100%;" })
+            </div>
+            <div class="col-lg-4">
+                <label>Legajo:</label><br />
+                @Html.TextBox("Legajo", null, new { style = "width:100%;" })
+            </div>
+            <div class="col-lg-4">
+                <br />
+                <button type="submit" class="btn btn-info" style="width:100%">Filtrar</button>
+            </div>
+        </div>
+    }
+    <hr />
+
+    <div class="row">
+        <table class="table table-responsive-lg table-sm ">
+            <thead>
+                <tr>
+                    <th>IDAlumno</th>
+                    <th>Nombre</th>
+                    <th>Legajo</th>
+                    <th>Edad</th>
+                    <th>Fecha Nacimiento</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.alumnos)
+                {
+                    <tr>
+                        <td>@item.IDAlumno</td>
+                        <td>@item.Nombre</td>
+                        <td>@item.Legajo</td>
+                        <td>@item.Edad </td>
+                        <td>@item.FechaNacimiento.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            @Html.ActionLink("Editar", "Editar", new { id = item.IDAlumno } ) |
+                            @Html.ActionLink("Estado Academico", "EstadoAcademico", new { idAlumno = item.IDAlumno }) |
+                            @Html.ActionLink("Inscribir", "Index", "Inscripcion", new { idAlumno = item.IDAlumno }, new { })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

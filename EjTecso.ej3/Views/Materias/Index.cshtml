@@ -1,0 +1,33 @@
+﻿@model IEnumerable<EjTecso.ej3.Materia>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Materias</h2>
+
+<p>
+    @Html.ActionLink("Alta de Materia", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.IDMateria }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.IDMateria }) |
+        </td>
+    </tr>
+}
+
+</table>

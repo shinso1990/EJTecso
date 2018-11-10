@@ -1,0 +1,72 @@
+﻿@model EjTecso.ej3.Models.ModeloPagina.MPInscripcion
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Inscribir</h2>
+
+@using (Html.BeginForm("AsociarAlumno", "Inscripcion", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <label>Id Alumno:</label><br />
+                @Model.Alumno.IDAlumno
+            </div>
+            <div class="col-lg-3">
+                <label>Nombre:</label><br />
+                @Model.Alumno.Nombre
+            </div>
+            <div class="col-lg-3">
+                <label>Edad: </label><br />
+                @Model.Alumno.Edad
+            </div>
+            <div class="col-lg-3">
+                <label>Legajo:</label><br />
+                @Model.Alumno.Legajo
+            </div>
+        </div>
+    </div>
+    <hr />
+    if (Model.CursosDiponibles.Count > 0)
+    {
+        <div class="form-horizontal">
+            <h4>Inscribír:</h4>
+            @Html.Hidden("IDAlumno", Model.IDAlumno.ToString())
+        
+
+            <div class="form-group">
+                <div class="col-md-2">Cursos:</div>
+                <div class="col-md-10">
+                    @Html.DropDownList("IDCurso", Model.CursosDiponibles.Select(x => new SelectListItem() { Text = x.Materia.Nombre + " - " + x.Docente.Nombre + " - Inicio: " + x.FechaInicioCursada.ToShortDateString(), Value = x.IDCurso.ToString() }), htmlAttributes: new { @class = "form-control", @style = "min-width:100%" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-2">
+        Estado:</div>
+        <div class="col-md-10">
+            @Html.DropDownList("IDEstado", Model.Estados.Select(x => new SelectListItem() { Text = x.Descripcion, Value = x.IDEstado.ToString() }), htmlAttributes: new { @class = "form-control" })
+        </div>
+            </div>
+        
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Inscribir" class="btn btn-default" />
+                </div>
+            </div>
+        
+        </div>
+    }
+    else
+    {
+        <div class="form-horizontal">
+            <h4>El alumno no posee materias disponibles a las que pueda inscribirse:</h4>
+        </div>
+    }
+}
+

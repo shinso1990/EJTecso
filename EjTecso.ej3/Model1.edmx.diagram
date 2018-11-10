@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="675aa4fdceac48859208b6d72b30fe24" Name="Diagram1" ZoomLevel="40" >
+        <EntityTypeShape EntityType="DatabaseModel.Alumno" Width="1.5" PointX="3" PointY="7.25" />
+        <EntityTypeShape EntityType="DatabaseModel.Curso" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="DatabaseModel.Docente" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="DatabaseModel.Inscripcion" Width="1.5" PointX="5.25" PointY="1.375" />
+        <EntityTypeShape EntityType="DatabaseModel.Inscripcion_Estado" Width="1.5" PointX="3" PointY="4.875" />
+        <EntityTypeShape EntityType="DatabaseModel.Materia" Width="1.5" PointX="0.75" PointY="1.75" />
+        <AssociationConnector Association="DatabaseModel.FK_Inscripcion_IDAlumno" />
+        <AssociationConnector Association="DatabaseModel.FK_Curso_Docente" />
+        <AssociationConnector Association="DatabaseModel.FK_Curso_Materia" />
+        <AssociationConnector Association="DatabaseModel.FK_Inscripcion_IDCurso" />
+        <AssociationConnector Association="DatabaseModel.FK_Inscripcion_IDEstado" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

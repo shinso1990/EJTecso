@@ -1,0 +1,69 @@
+﻿@model IEnumerable<EjTecso.ej3.Curso>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Alta de Curso", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Profesor
+        </th>
+        <th>
+            Materia
+        </th>
+        <th>
+            Cupo Máximo
+        </th>
+        <th>
+            F. Inicio Inscripción
+        </th>
+        <th>
+            F. Fin Inscripción 
+        </th>
+        <th>
+            F. Inicio Cursada
+        </th>
+        <th>
+            F. Fin Cursada
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Docente.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Materia.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CupoMaximo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaInscripcionInicio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaInscripcionFin)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaInicioCursada)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaFinCursada)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.IDCurso }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.IDCurso }) |
+        </td>
+    </tr>
+}
+
+</table>

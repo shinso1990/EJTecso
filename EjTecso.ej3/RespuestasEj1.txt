@@ -1,0 +1,35 @@
+﻿1
+a- tipos para el modelo dado:
+Inscripción:
+- IdAlumno: int
+- IdCurso: int 
+- FechaInscripcion: datetime
+- Estado: int
+
+Cursos:
+- IdCurso: int 
+- Asignatura: varchar(100)
+- Asignatura: int
+- Docente: varchar(150)
+
+Alumnos:
+- IdAlumno: int
+- Nombre: varchar(150)
+- Legajo: int
+- Edad: int
+- FechaNacimiento: date
+
+b- 
+Si. 
+-Una razón sería que un alumno podría querer anotarse al mismo curso más de una vez en distinta fecha(ej: el cuatrimestre siguiente). Este modelo permite eso si se copia la información del curso pero con un nuevo IDCurso. Esto último haría que se repita información constantemente de los cursos.
+-Se podría agregar una tabla que represente los estados (IdEstado:int, Descripcion:varchar(100))
+-Si Dos docentes se llamaran igual, no podría responder quien dictó de los dos un curso específico. 
+-Sería preferible tener en una tabla separada a los docentes y a las materias 
+-No hay limitaciones para el momento de inscripción ni se sabe cuando es la cursada.
+
+c-
+Por un lado tener los indices de las PK.
+Por otro lado se podría indexar al Alumno por nombre o Legajo en caso de que un sistema quiera consultar por esta información.
+Si fueran necesarias búsquedas de cursos por Docente o Asignatura se podría hacer lo mismo para Alumno.
+
+Los indices principalmente dependen del tipo de consultas que se quiera realizar al sistema.
